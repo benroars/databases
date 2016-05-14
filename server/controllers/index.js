@@ -11,27 +11,24 @@ module.exports = {
 
   messages: {
     get: function (req, res) {
-      console.log("get msg")
+      res.writeHead(200, this.headers);
+      models.messages.get(function(result) {
+        res.end(JSON.stringify(result));
+      });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      console.log("post msg")
       res.writeHead(201, this.headers);
       res.end(models.messages.post(req.body));
-
     } // a function which handles posting a message to the database
   },
 
   users: {
     // Ditto as above
     get: function (req, res) {
-      console.log("get user")
-
     },
     post: function (req, res) {
-      console.log("post user")
       res.writeHead(201, this.headers);
       res.end(models.users.post(req.body.username));
-
     }
   }
 };
