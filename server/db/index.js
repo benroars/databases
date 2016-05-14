@@ -9,7 +9,7 @@ exports.connect = function(err) {
   var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '1234',
+    password: 'onepiece14',
     database: 'chat'
   });
   return connection;

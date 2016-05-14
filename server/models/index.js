@@ -10,10 +10,13 @@ module.exports = {
         callback(data);
       });
     }, // a function which produces all the messages
-    post: function (message) {
-      db.query('INSERT INTO messages (username, msg, roomname) VALUES ("' + message.username + '","' + message.msg + '","' + message.roomname + '")', function(err, results) {
-        if (err) throw err;
-        console.log(results);
+    post: function (message, callback) {
+      var data = {username: message.username, text: message.text, roomname: message.roomname};
+      db.query('INSERT INTO messages (username, text, roomname) VALUES (?)', data, function(err, results) {
+        if (err) { 
+          throw err;
+        }
+        callback(results);
       });
 
     } // a function which can be used to insert a message into the database
@@ -21,12 +24,14 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function (message) {
-    },
-    post: function (username) {
+    get: function (message) {},
+
+    post: function (username, callback) {
       db.query('INSERT INTO messages (username) VALUES ("' + username + '")', function(err, results) {
-        if (err) throw err;
-        console.log(results);
+        if (err) {
+          throw err;
+        }
+        callback(results);
       });
     }
   }

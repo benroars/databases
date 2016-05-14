@@ -1,7 +1,6 @@
 var models = require('../models');
 
 module.exports = {
-
   headers: {
     'access-control-allow-origin': '*',
     'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -16,6 +15,7 @@ module.exports = {
         res.end(JSON.stringify(result));
       });
     }, // a function which handles a get request for all messages
+    
     post: function (req, res) {
       res.writeHead(201, this.headers);
       res.end(models.messages.post(req.body));
@@ -24,8 +24,8 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {
-    },
+    get: function (req, res) {},
+
     post: function (req, res) {
       res.writeHead(201, this.headers);
       res.end(models.users.post(req.body.username));
