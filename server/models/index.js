@@ -1,3 +1,12 @@
+var Sequelize = require('sequelize');
+var db = new Sequelize('chat', 'root', 'onepiece14');
+
+var Message = db.define('Message', {
+  username: Sequelize.STRING,
+  text: Sequelize.STRING,
+  roomname: Sequelize.STRING
+});
+
 var db = require('../db');
 db = db.connect();
 
@@ -5,21 +14,39 @@ module.exports = {
 
   messages: {
     get: function (callback) {
-      db.query('SELECT * FROM messages', function(err, data) {
-        if (err) {
-          throw err;
-        }
-        callback(data);
-      });
+      
+      Message.sync()
+        .then(function() {
+          return User.findAll();
+        }).then(function(results) {
+          callback(results);
+        });
+
+      // db.query('SELECT * FROM messages', function(err, data) {
+      //   if (err) {
+      //     throw err;
+      //   }
+      //   callback(data);
+      // });
     }, // a function which produces all the messages
     post: function (message, callback) {
-      var data = {username: message.username, text: message.text, roomname: message.roomname};
-      db.query('INSERT INTO messages (username, text, roomname) VALUES (?)', data, function(err, results) {
-        if (err) { 
-          throw err;
-        }
-        callback(results);
-      });
+
+      Message.sync()
+        .then(function() {
+          return User.create({username: message.username, text: message.text, roomname: message.roomname});
+        }).then(function(results) {
+          callback(results);
+        }).catch(function(err) {
+          console.log(err);
+        });
+
+      // var data = {username: message.username, text: message.text, roomname: message.roomname};
+      // db.query('INSERT INTO messages (username, text, roomname) VALUES (?)', data, function(err, results) {
+      //   if (err) { 
+      //     throw err;
+      //   }
+      //   callback(results);
+      // });
 
     } // a function which can be used to insert a message into the database
   },
@@ -29,12 +56,23 @@ module.exports = {
     get: function (message) {},
 
     post: function (username, callback) {
-      db.query('INSERT INTO messages (username) VALUES ("' + username + '")', function(err, results) {
-        if (err) {
-          throw err;
-        }
-        callback(results);
-      });
+      
+      Message.sync()
+        .then(function() {
+          return User.create({username: username, text: 'sup', roomname: '1'});
+        }).then(function(results) {
+          callback(results);
+        }).catch(function(err) {
+          console.log(err);
+        });
+
+
+      // db.query('INSERT INTO messages (username) VALUES ("' + username + '")', function(err, results) {
+      //   if (err) {
+      //     throw err;
+      //   }
+      //   callback(results);
+      // });
     }
   }
 };
