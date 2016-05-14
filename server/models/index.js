@@ -9,11 +9,10 @@ module.exports = {
         if (err) throw err;
         callback(data);
       });
-
     }, // a function which produces all the messages
     post: function (message) {
-      db.query('INSERT INTO messages (username, msg, roomname) VALUES ("' + message.username + '","' + message.message + '","' + message.roomname + '")', function(err, results) {
-        if (err) throw err
+      db.query('INSERT INTO messages (username, msg, roomname) VALUES ("' + message.username + '","' + message.msg + '","' + message.roomname + '")', function(err, results) {
+        if (err) throw err;
         console.log(results);
       });
 
@@ -23,13 +22,10 @@ module.exports = {
   users: {
     // Ditto as above.
     get: function (message) {
-      db.query('SELECT * FROM messages');
-
-
     },
     post: function (username) {
       db.query('INSERT INTO messages (username) VALUES ("' + username + '")', function(err, results) {
-        if (err) throw err
+        if (err) throw err;
         console.log(results);
       });
     }
