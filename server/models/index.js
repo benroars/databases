@@ -6,7 +6,9 @@ module.exports = {
   messages: {
     get: function (callback) {
       db.query('SELECT * FROM messages', function(err, data) {
-        if (err) throw err;
+        if (err) {
+          throw err;
+        }
         callback(data);
       });
     }, // a function which produces all the messages

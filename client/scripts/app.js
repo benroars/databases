@@ -11,7 +11,7 @@ var app = {
 
   init: function() {
     // Get username
-    app.username = prompt("Choose your username");
+    app.username = prompt('Choose your username');
 
     // Cache jQuery selectors
     app.$message = $('#message');
@@ -33,7 +33,7 @@ var app = {
   },
 
   send: function(data) {
-    console.log(data)
+   // console.log(data);
     app.startSpinner();
     // Clear messages input
     app.$message.val('');
@@ -60,7 +60,7 @@ var app = {
       type: 'GET',
       contentType: 'application/json',
       success: function(data) {
-        console.log(data)
+        //console.log(data);
         // Don't bother if we have nothing to work with        
         // if (!data.results || !data.results.length) { return; }
 
@@ -97,7 +97,7 @@ var app = {
     app.stopSpinner();
     if (Array.isArray(results)) {
       // Add all fetched messages
-      for(var i = results.length-1; i > -1; i--) {
+      for (var i = results.length - 1; i > -1; i--) {
         app.addMessage(results[i]);
       }
     }
