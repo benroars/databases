@@ -5,6 +5,8 @@ var Message = db.define('Message', {
   username: Sequelize.STRING,
   text: Sequelize.STRING,
   roomname: Sequelize.STRING
+}, {
+  timestamps: false
 });
 
 var db = require('../db');
@@ -17,7 +19,7 @@ module.exports = {
       
       Message.sync()
         .then(function() {
-          return User.findAll();
+          return Message.findAll({attributed: ['username', 'text', 'roomname']});
         }).then(function(results) {
           callback(results);
         });
@@ -33,7 +35,7 @@ module.exports = {
 
       Message.sync()
         .then(function() {
-          return User.create({username: message.username, text: message.text, roomname: message.roomname});
+          return Message.create({username: message.username, text: message.text, roomname: message.roomname});
         }).then(function(results) {
           callback(results);
         }).catch(function(err) {
@@ -59,7 +61,7 @@ module.exports = {
       
       Message.sync()
         .then(function() {
-          return User.create({username: username, text: 'sup', roomname: '1'});
+          return Message.create({username: username, text: 'sup', roomname: '1'});
         }).then(function(results) {
           callback(results);
         }).catch(function(err) {
