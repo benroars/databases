@@ -9,6 +9,14 @@ var Message = db.define('Message', {
   timestamps: false
 });
 
+var User = db.define('User', {
+  user: Sequelize.STRING,
+  password: Sequelize.STRING
+}, {
+  timestamps: false,
+  tableName: 'users'
+});
+
 var db = require('../db');
 db = db.connect();
 
@@ -24,12 +32,6 @@ module.exports = {
           callback(results);
         });
 
-      // db.query('SELECT * FROM messages', function(err, data) {
-      //   if (err) {
-      //     throw err;
-      //   }
-      //   callback(data);
-      // });
     }, // a function which produces all the messages
     post: function (message, callback) {
 
@@ -41,14 +43,6 @@ module.exports = {
         }).catch(function(err) {
           console.log(err);
         });
-
-      // var data = {username: message.username, text: message.text, roomname: message.roomname};
-      // db.query('INSERT INTO messages (username, text, roomname) VALUES (?)', data, function(err, results) {
-      //   if (err) { 
-      //     throw err;
-      //   }
-      //   callback(results);
-      // });
 
     } // a function which can be used to insert a message into the database
   },
@@ -68,13 +62,32 @@ module.exports = {
           console.log(err);
         });
 
+    }
+  },
 
-      // db.query('INSERT INTO messages (username) VALUES ("' + username + '")', function(err, results) {
-      //   if (err) {
-      //     throw err;
-      //   }
-      //   callback(results);
-      // });
+  login: {
+    // Ditto as above.
+    get: function (message) {},
+
+    post: function (userinfo, callback) {
+      
+      User.sync()
+        .then(function() {
+          return User.findAll({attributed: ['user', 'password']});
+        })
+        .then(function(results) {
+          _.each(results, function(value){
+            console.log('#$%!%!@#%!@#%!@#!@%!@#', value);
+          })
+         // console.log('____! _@_!@_$_@_$_@THE RESULTS', results);
+          return User.create({password: userinfo.password,user: userinfo.username});
+        }).then(function(results) {
+          callback(results);
+        }).catch(function(err) {
+          console.log(err);
+        });
+
+
     }
   }
 };

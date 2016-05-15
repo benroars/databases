@@ -11,5 +11,10 @@ router.get('/users', controller.users.get);
 router.post('/users', controller.users.post);
 
 
+router.get('/login', controller.login.get);
+
+router.post('/login', controller.login.post);
+
+
 module.exports = router;
 

@@ -88,3 +88,10 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+.RbtnMargin { margin-left: 5px; }
+
+.sizer {
+    width: 100px !important;
+    display: inline;
+    float: right;
+}

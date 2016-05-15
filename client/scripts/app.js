@@ -11,18 +11,27 @@ var app = {
 
   init: function() {
     // Get username
-    app.username = prompt('Choose your username');
+    
+    //app.username = prompt('Choose your username');
+    app.username = 'anonymous';
 
+    app.usernames = [];
     // Cache jQuery selectors
     app.$message = $('#message');
     app.$chats = $('#chats');
     app.$roomSelect = $('#roomSelect');
     app.$send = $('#send');
 
+    app.$setuser = $('#setuser');
+    app.$userID = $('#userID');
+    app.$userPass = $('#userPass');
+
     // Add listeners
     app.$chats.on('click', '.username', app.toggleFriend);
     app.$send.on('submit', app.handleSubmit);
     app.$roomSelect.on('change', app.saveRoom);
+
+    app.$setuser.on('submit', app.handleLogin);
 
     // Fetch previous messages
     app.startSpinner();
@@ -33,11 +42,9 @@ var app = {
   },
 
   send: function(data) {
-   // console.log(data);
     app.startSpinner();
     // Clear messages input
     app.$message.val('');
-
     // POST the message to the server
     $.ajax({
       url: app.server,
@@ -54,32 +61,55 @@ var app = {
     });
   },
 
+  sendLogin: function(data) {
+   // console.log(data);
+    app.startSpinner();
+    // Clear messages input
+    //app.$userID.val('');
+    // POST the message to the server
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/classes/login',
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function (data) {
+        // Trigger a fetch to update the messages, pass true to animate
+       // app.fetch();
+        //query db CHECK if name in there then return a true or false
+        // if(_.contains(app.usernames, data)){
+        //   alert('Already in DB');
+        // } else {
+        //   app.username = data;
+        // }
+        //app.fetch();
+      },
+      error: function (data) {
+        console.error('chatterbox: Failed to send message', data);
+      }
+    });
+
+    return false;
+  },  
+
   fetch: function(animate) {
     $.ajax({
       url: app.server,
       type: 'GET',
       contentType: 'application/json',
       success: function(data) {
-        //console.log(data);
-        // Don't bother if we have nothing to work with        
-        // if (!data.results || !data.results.length) { return; }
-
-        // // Get the last message
-        // var mostRecentMessage = data.results[data.results.length - 1];
-        // var displayedRoom = $('.chat span').first().data('roomname');
-        // app.stopSpinner();
-        // Only bother updating the DOM if we have a new message
-        // if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
-
-          // Update the UI with the fetched rooms
+        
         app.populateRooms(JSON.parse(data));
 
           // Update the UI with the fetched messages
         app.populateMessages(JSON.parse(data), animate);
 
+       // console.log('THE DATA', data);
+        _.each(JSON.parse(data), function(obj){
+          app.usernames.push(obj.username);
+        })
+        
           // Store the ID of the most recent message
-        // app.lastMessageId = mostRecentMessage.objectId;
-        // }
       },
       error: function(data) {
         console.error('chatterbox: Failed to fetch messages', data);
@@ -177,17 +207,18 @@ var app = {
     var username = $(evt.currentTarget).attr('data-username');
 
     if (username !== undefined) {
-      if(app.friends[username]) {
+      if(!app.friends[username]) {
         // Store as a friend
         app.friends[username] = true;
 
         // Bold all previous messages
         // Escape the username in case it contains a quote
-        var selector = '[data-username="' + username.replace(/"/g, '\\\"') + '"]';
-        var $usernames = $(selector).toggleClass('friend');
+        
       } else {
         delete app.friends[username];
       }
+      var selector = '[data-username="' + username.replace(/"/g, '\\\"') + '"]';
+      var $usernames = $(selector).toggleClass('friend');
     }
   },
 
@@ -231,6 +262,15 @@ var app = {
     app.send(message);
 
     // Stop the form from submitting
+    evt.preventDefault();
+  },
+
+  handleLogin: function(evt) {
+    var username = {
+      username: app.$userID.val(),
+      password: app.$userPass.val()
+    }
+    app.sendLogin(username);
     evt.preventDefault();
   },
 

@@ -3,20 +3,30 @@
   <head>
     <meta charset="utf-8">
     <title>chatterbox</title>
-    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 
     <!-- dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
-    <script src="./bower_components/underscore/underscore.js"></script>
-    <script src="./bower_components/jquery/dist/jquery.js"></script>
-    <script src="./bower_components/backbone/backbone.js"></script>
+    <script src="/bower_components/underscore/underscore.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/backbone/backbone.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     <!-- your scripts -->
     <!-- <script src="env/config.js"></script> -->
-    <script src="./scripts/app.js"></script>
+    <script src="/scripts/app.js"></script>
   </head>
   <body>
     <div id="main">
+      <form action="#" id="setuser" method="post" >
+        <input type="submit" name="submit" value="Login" class="submit btn btn-success pull-right"/>
+        <input type="text" name="message" id="userPass" class="sizer"/>
+        <input type="text" name="message" id="userID" class="sizer"/>
+      </form>
+      <!--button id="signup" class="btn btn-warning pull-right RbtnMargin">Signup</button>
+      <button id="login" class="btn btn-success pull-right">Login</button-->
+
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
 
@@ -28,7 +38,7 @@
       </div>
       <form action="#" id="send" method="post">
         <input type="text" name="message" id="message"/>
-        <input type="submit" name="submit" class="submit"/>
+        <input type="submit" name="submit" class="submit btn btn-primary"/>
       </form>    </div>
     <div id="chats"></div>
 

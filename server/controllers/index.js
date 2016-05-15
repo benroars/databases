@@ -30,6 +30,20 @@ module.exports = {
       res.writeHead(201, this.headers);
       res.end(models.users.post(req.body.username));
     }
+  },
+
+  login: {
+    // Ditto as above
+    get: function (req, res) {},
+
+    post: function (req, res) {
+      console.log('at the controller?');
+      console.log("THE REQUEST", req.body.username, req.body.password);
+      //res.writeHead(201, this.headers);
+      //res.end(models.login.post(req.body));
+      //res.end(req.body.username);
+      res.end(models.login.post(req.body));
+    }
   }
 };
 

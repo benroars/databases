@@ -11,6 +11,14 @@ CREATE TABLE messages (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE users(
+  /* Describe your table here.*/
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `user` TEXT NULL DEFAULT NULL,
+  `password` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
 /* Create other tables and define schemas for them here! */
 
 

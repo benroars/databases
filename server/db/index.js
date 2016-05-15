@@ -14,17 +14,3 @@ exports.connect = function(err) {
   });
   return connection;
 };
-
-// var connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: '1234',
-//   database: 'chat'
-// });
-
-// connection.connect(function(err) {
-//   if (err) {
-//     throw err;
-//   }
-//   console.log('You are now connected...');
-// });
